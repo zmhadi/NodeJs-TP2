@@ -1,6 +1,7 @@
 const express = require('express');
 const { DateTime } = require('luxon');
 const cors = require('cors');
+const jwt = require('express-jwt')
 
 const initJsonHandlerMiddlware = (app) => app.use(express.json());
 
@@ -25,10 +26,21 @@ const initLoggerMiddlware = (app) => {
   });
 };
 
+const initVerificationToken = (app) => {
+  app.use(jwt({ secret: 'secret', algorithms: ['HS256'] }).unless({path: ['/users/login'] , method : ['POST', 'GET']})
+    /*if((req.method == 'PUT' || req.method == 'DELETE') && (req.url.match("/users"))) {
+      console.log('here', req.headers.authorization)
+      next()
+    }
+    next()*/
+    )
+  }
+
 exports.initializeConfigMiddlewares = (app) => {
   initJsonHandlerMiddlware(app);
   initCorsMiddlware(app);
   initLoggerMiddlware(app);
+  initVerificationToken(app)
 }
 
 exports.initializeErrorMiddlwares = (app) => {

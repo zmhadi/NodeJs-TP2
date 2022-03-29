@@ -4,8 +4,8 @@
   "description": "Suppa description",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js dotenv-index.js",
-    "devstart": "nodemon index.js dotenv-index.js"
+    "start": "node index.js",
+    "devstart": "nodemon index.js"
   },
   "author": "Moi",
   "license": "ISC",
@@ -21,7 +21,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "env-cmd": "^10.1.0",
     "nodemon": "^2.0.15"
   }
 }

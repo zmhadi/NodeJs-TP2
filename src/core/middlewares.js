@@ -27,12 +27,7 @@ const initLoggerMiddlware = (app) => {
 };
 
 const initVerificationToken = (app) => {
-  app.use(jwt({ secret: 'secret', algorithms: ['HS256'] }).unless({path: ['/users/login'] , method : ['POST', 'GET']})
-    /*if((req.method == 'PUT' || req.method == 'DELETE') && (req.url.match("/users"))) {
-      console.log('here', req.headers.authorization)
-      next()
-    }
-    next()*/
+  app.use(jwt({ secret: process.env.TOKEN_SECRET, algorithms: ['HS256'] }).unless({path: ['/users/login'] , method : ['POST', 'GET']})
     )
   }
 

@@ -7,6 +7,7 @@ exports.users = [
         firstName : "root",
         lastName: "",
         password : bcrypt.hashSync("admin", 12),
-        accessToken: "undefined"
+        accessToken: "undefined",
+        roles: "ADMIN"
     }
 ];

@@ -7,9 +7,8 @@ router.get('/', (req, res) => {
 });
 
 router.post('/login',(req, res) => {
-  console.log(req.body)
   if(userRepository.isAuthentified(req.body) == false) {
-    res.status(401).end()
+    res.status(401).send("Login failed !")
   }
   userRepository.isAuthentified(req.body)
   res.status(201).send({accessToken : userRepository.isAuthentified(req.body)});
@@ -17,27 +16,34 @@ router.post('/login',(req, res) => {
 
 router.get('/:firstName', (req, res) => {
   const foundUser = userRepository.getUserByFirstName(req.params.firstName);
-
   if (!foundUser) {
     throw new Error('User not found');
   }
-
   res.send(foundUser);
 });
 
 router.post('/', (req, res) => {
-  userRepository.createUser(req.body);
-  res.status(201).end();
+  if(userRepository.isAdmin(req.headers.authorization)) {
+    userRepository.createUser(req.body);
+    res.status(201).send("User created !");
+  }
+  res.status(401).send("No permission !")
 });
 
 router.put('/:id', (req, res) => {
-  userRepository.updateUser(req.params.id, req.body);
-  res.status(204).end();
+  if(userRepository.isAdmin(req.headers.authorization)) {
+    userRepository.updateUser(req.params.id, req.body);
+    res.status(204).send("Modification saved !");
+  }
+  res.status(401).send("No permission !")
 });
 
 router.delete('/:id', (req, res) => {
-  userRepository.deleteUser(req.params.id);
-  res.status(204).end();
+  if(userRepository.isAdmin(req.headers.authorization)) {
+    userRepository.deleteUser(req.params.id);
+    res.status(204).send("User deleted !");
+  }
+  res.status(401).send("No permission !")
 });
 
 exports.initializeRoutes = () => {
